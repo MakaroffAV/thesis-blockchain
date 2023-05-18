@@ -63,6 +63,8 @@ func GetUserBalance(address string) (int, error) {
 		return 0, errCheckUserAddress
 	}
 
+	defer b.Db.Close()
+
 	t := UTXOSet{b}
 
 	p := GetPbHash(address)
@@ -84,6 +86,7 @@ func GetUserBalance(address string) (int, error) {
 func CreateNewTransaction(sen, rec string, amount int) {
 
 	if !checkAddress(sen) {
+		fmt.Println("here")
 		return
 	}
 
@@ -97,6 +100,8 @@ func CreateNewTransaction(sen, rec string, amount int) {
 	if bErr != nil {
 		return
 	}
+
+	defer b.Db.Close()
 
 	fmt.Println("here2.2")
 
@@ -124,6 +129,7 @@ func CreateBlockchain(address string) (bool, error) {
 	if bErr != nil {
 		return false, errCreateBlockchain
 	}
+	defer b.Db.Close()
 
 	u := UTXOSet{b}
 	u.Reindex()

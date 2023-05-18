@@ -2,6 +2,7 @@ package tst
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/MakaroffAV/thesis-blockchain/core"
 )
@@ -9,6 +10,18 @@ import (
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
 func OneTest() {
+
+	err1 := os.Remove("blockchain.db")
+	if err1 != nil {
+		fmt.Println(err1)
+		return
+	}
+
+	err2 := os.Remove("wallet.dat")
+	if err2 != nil {
+		fmt.Println(err2)
+		return
+	}
 
 	w1, w1Err := core.CreateUserWallet()
 	if w1Err != nil {
@@ -21,6 +34,7 @@ func OneTest() {
 		fmt.Println(w2Err)
 		return
 	}
+	fmt.Println("here 1.1")
 
 	w3, w3Err := core.CreateUserWallet()
 	if w1Err != nil {
@@ -35,7 +49,7 @@ func OneTest() {
 		fmt.Println(bcErr)
 	}
 
-	fmt.Println("here1", w1)
+	fmt.Println("here1", w1, w2, w3)
 
 	// w1 10 -4 6
 	// w2 0 +4 4
@@ -82,6 +96,8 @@ func OneTest() {
 	if b3 != 1 {
 		fmt.Println("incorrect balance w3")
 	}
+
+	fmt.Println(b1, b2, b3)
 
 	fmt.Println("here")
 

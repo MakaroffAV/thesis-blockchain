@@ -14,6 +14,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/MakaroffAV/thesis-blockchain/pkg/utils"
 	"github.com/boltdb/bolt"
@@ -43,7 +44,8 @@ func newBlockchain(address string) (*blockchain, error) {
 
 	// create new database connection
 	// todo: create special Db module
-	db, dbErr := bolt.Open(dbFilename, 0600, nil)
+	db, dbErr := bolt.Open(dbFilename, 0600, &bolt.Options{Timeout: time.Second * 2})
+	fmt.Println(dbErr)
 	if dbErr != nil {
 		log.Panic(dbErr)
 		return nil, dbErr
